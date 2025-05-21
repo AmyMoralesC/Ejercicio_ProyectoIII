@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Boletería - Registro y Compra</title>
+
+        <!-- Estilos PrimeFaces -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primefaces@latest/resources/themes/saga/theme.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primefaces@latest/resources/primefaces.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@latest/primeicons.css" />
+
+        <!-- Tu CSS personalizado -->
+        <h:outputStylesheet library="css" name="boleteria.css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="boleteriaForm">
+            <p:tabView>
+
+                <!-- Prueba -->
+                <!-- Registrar y Comprar Boleto -->
+                <p:tab title="Registrar y Comprar Boleto">
+                    <p:panel header="Registro y Compra de Boleto" styleClass="form-panel">
+
+                        <p:panelGrid columns="2"
+                                     columnClasses="label-col,input-col"
+                                     styleClass="ui-panelgrid-blank ui-fluid"
+                                     style="width:100%;">
+
+                            <p:outputLabel for="cedula" value="Cédula: *" />
+                            <p:inputText id="cedula" value="#{boleteriaBean.cedula}" />
+
+                            <p:outputLabel for="nombre" value="Nombre: *" />
+                            <p:inputText id="nombre" value="#{boleteriaBean.nombre}" />
+
+                            <p:outputLabel for="edad" value="Edad: *" />
+                            <p:spinner id="edad" value="#{boleteriaBean.edad}" min="0" />
+
+                            <p:outputLabel for="sexo" value="Sexo: *" />
+                            <p:selectOneMenu id="sexo" value="#{boleteriaBean.sexo}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Otro" itemValue="O" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="ruta" value="Ruta: *" />
+                            <p:inputText id="ruta" value="#{boleteriaBean.ruta}" />
+
+                            <p:outputLabel for="hora" value="Hora: *" />
+                            <p:inputMask id="hora" value="#{boleteriaBean.hora}" mask="99:99" placeholder="HH:MM" />
+
+                            <p:outputLabel for="placa" value="Placa del Bus: *" />
+                            <p:inputText id="placa" value="#{boleteriaBean.placa}" />
+                        </p:panelGrid>
+
+                        <div class="botones">
+                            <p:commandButton value="Registrar y Comprar"
+                                             action="#{boleteriaBean.registrarYComprar}"
+                                             update="boleteriaForm"
+                                             icon="pi pi-check"
+                                             styleClass="ui-button-success" />
+                        </div>
+                    </p:panel>
+                </p:tab>
+
+                <!-- Historial -->
+                <p:tab title="Historial de Boletos">
+                    <p:panelGrid columns="2" style="max-width: 600px; margin: auto;" columnClasses="label-col,input-col">
+                        <p:outputLabel for="cedulaHist" value="Buscar por Cédula:" />
+                        <p:inputText id="cedulaHist" value="#{boleteriaBean.cedulaBusqueda}" />
+
+                        <f:facet name="footer">
+                            <div class="botones">
+                                <p:commandButton value="Buscar"
+                                                 action="#{boleteriaBean.buscarHistorial}"
+                                                 update="tablaHistorial"
+                                                 icon="pi pi-search" />
+                            </div>
+                        </f:facet>
+                    </p:panelGrid>
+
+                    <p:dataTable id="tablaHistorial"
+                                 value="#{boleteriaBean.historial}"
+                                 var="boleto"
+                                 emptyMessage="Sin boletos registrados."
+                                 style="max-width: 800px; margin: auto; margin-top: 20px;">
+
+                        <p:column headerText="Ruta">
+                            <h:outputText value="#{boleto.ruta}" />
+                        </p:column>
+
+                        <p:column headerText="Hora">
+                            <h:outputText value="#{boleto.hora}" />
+                        </p:column>
+
+                        <p:column headerText="Placa">
+                            <h:outputText value="#{boleto.placa}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+
+            </p:tabView>
+        </h:form>
+    </h:body>
+</html>
