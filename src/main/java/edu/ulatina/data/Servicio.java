@@ -21,7 +21,7 @@ public class Servicio {
     private String puerto = "3306";
     private String sid = "sistema_boleteria";
     private String usuario = "root";
-    private String clave = "admin";
+    private String clave = "adminadmin";
  
  
     public void conectarBD() throws ClassNotFoundException, SQLException {

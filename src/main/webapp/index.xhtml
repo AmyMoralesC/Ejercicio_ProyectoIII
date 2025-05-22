@@ -28,16 +28,16 @@
                                      style="width:100%;">
 
                             <p:outputLabel for="cedula" value="Cédula: *" />
-                            <p:inputText id="cedula" value="#{boleteriaBean.cedula}" />
+                            <p:inputText id="cedula" value="#{registroController.usuario.cedula}" />
 
                             <p:outputLabel for="nombre" value="Nombre: *" />
-                            <p:inputText id="nombre" value="#{boleteriaBean.nombre}" />
+                            <p:inputText id="nombre" value="#{registroController.usuario.nombre}" />
 
                             <p:outputLabel for="edad" value="Edad: *" />
-                            <p:spinner id="edad" value="#{boleteriaBean.edad}" min="0" />
+                            <p:spinner id="edad" value="#{registroController.usuario.edad}" min="0" />
 
                             <p:outputLabel for="sexo" value="Sexo: *" />
-                            <p:selectOneMenu id="sexo" value="#{boleteriaBean.sexo}">
+                            <p:selectOneMenu id="sexo" value="#{registroController.usuario.sexo}">
                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
                                 <f:selectItem itemLabel="Femenino" itemValue="F" />
                                 <f:selectItem itemLabel="Masculino" itemValue="M" />
@@ -45,18 +45,18 @@
                             </p:selectOneMenu>
 
                             <p:outputLabel for="ruta" value="Ruta: *" />
-                            <p:inputText id="ruta" value="#{boleteriaBean.ruta}" />
+                            <p:inputText id="ruta" value="#{registroController.usuario.ruta}" />
 
                             <p:outputLabel for="hora" value="Hora: *" />
-                            <p:inputMask id="hora" value="#{boleteriaBean.hora}" mask="99:99" placeholder="HH:MM" />
+                            <p:inputMask id="hora" value="#{registroController.usuario.hora}" mask="99:99" placeholder="HH:MM" />
 
                             <p:outputLabel for="placa" value="Placa del Bus: *" />
-                            <p:inputText id="placa" value="#{boleteriaBean.placa}" />
+                            <p:inputText id="placa" value="#{registroController.usuario.placaDeBus}" />
                         </p:panelGrid>
 
                         <div class="botones">
                             <p:commandButton value="Registrar y Comprar"
-                                             action="#{boleteriaBean.registrarYComprar}"
+                                             action="#{registroController.registrarYComprar}"
                                              update="boleteriaForm"
                                              icon="pi pi-check"
                                              styleClass="ui-button-success" />
@@ -81,11 +81,22 @@
                     </p:panelGrid>
 
                     <p:dataTable id="tablaHistorial"
-                                 value="#{boleteriaBean.historial}"
+                                 value="#{historialController.boletos}"
                                  var="boleto"
                                  emptyMessage="Sin boletos registrados."
-                                 style="max-width: 800px; margin: auto; margin-top: 20px;">
-
+                                 style=" max-width: 800px; margin: auto; margin-top: 20px;  ">
+                        <p:column headerText="Id">
+                             <h:outputText value="#{boleto.id}" />
+                        </p:column>
+                         <p:column headerText="Cedula">
+                             <h:outputText value="#{boleto.cedula}" />
+                        </p:column>
+                         <p:column headerText="Nombre">
+                             <h:outputText value="#{boleto.nombre}" />
+                        </p:column>
+                        <p:column headerText="Tipo de Usuario" style="">
+                             <h:outputText value="#{boleto.tipo}" />
+                        </p:column>
                         <p:column headerText="Ruta">
                             <h:outputText value="#{boleto.ruta}" />
                         </p:column>
@@ -95,12 +106,14 @@
                         </p:column>
 
                         <p:column headerText="Placa">
-                            <h:outputText value="#{boleto.placa}" />
+                            <h:outputText value="#{boleto.placaDeBus}" />
                         </p:column>
                     </p:dataTable>
                 </p:tab>
+                
 
             </p:tabView>
+                
         </h:form>
     </h:body>
 </html>
