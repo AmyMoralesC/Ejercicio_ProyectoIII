@@ -110,4 +110,43 @@ public class ServicioUsuario extends Servicio {
         return listaRetorno;
 
     }
+   public List<Usuario> buscarBoletosPorCedula(String cedulaStr) {
+    List<Usuario> listaRetorno = new ArrayList<>();
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    try {
+        int cedula = Integer.parseInt(cedulaStr); // Convertimos el String a int
+        super.conectarBD();
+        String sql = "SELECT id, cedula, nombre, tipo_usuario, ruta, placa_bus, precio, hora FROM usuario WHERE cedula = ?";
+        pstmt = super.getConexion().prepareStatement(sql);
+        pstmt.setInt(1, cedula); // Usamos setInt en lugar de setString
+        rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Usuario boleto = new Usuario();
+            boleto.setId(rs.getInt("id"));
+            boleto.setCedula(rs.getInt("cedula"));
+            boleto.setNombre(rs.getString("nombre"));
+            boleto.setTipo(TipoUsuario.valueOf(rs.getString("tipo_usuario")));
+            boleto.setRuta(rs.getString("ruta"));
+            boleto.setPlacaDeBus(rs.getString("placa_bus"));
+            boleto.setPrecio(rs.getDouble("precio"));
+            boleto.setHora(rs.getString("hora"));
+            
+            listaRetorno.add(boleto);
+        }
+
+    } catch (NumberFormatException e) {
+        System.out.println("Error: La cédula debe ser un número válido");
+    } catch (Exception e) {
+        System.out.println("Error al buscar boletos por cédula: " + e.getMessage());
+    } finally {
+        cerrarPreparedStatement(pstmt);
+        cerrarResultSet(rs);
+        cerrarConexion();
+    }
+
+    return listaRetorno;
+}
 }

@@ -66,51 +66,50 @@
                 </p:tab>
 
 
-                <!-- Historial -->
-                <p:tab title="Historial de Boletos">
-                    <p:panelGrid columns="2" style="max-width: 600px; margin: auto;" columnClasses="label-col,input-col">
-                        <p:outputLabel for="cedulaHist" value="Buscar por Cédula:" />
-                        <p:inputText id="cedulaHist" value="#{boleteriaBean.cedulaBusqueda}" />
+             <!-- Historial -->
+<p:tab title="Historial de Boletos">
+    <p:panelGrid columns="2" style="max-width: 600px; margin: auto;" columnClasses="label-col,input-col">
+        <p:outputLabel for="cedulaHist" value="Buscar por Cédula:" />
+        <p:inputText id="cedulaHist" value="#{historialController.cedulaBusqueda}" />
 
-                        <f:facet name="footer">
-                            <div class="botones">
-                                <p:commandButton value="Buscar"
-                                                 action="#{boleteriaBean.buscarHistorial}"
-                                                 update="tablaHistorial"
-                                                 icon="pi pi-search" />
-                            </div>
-                        </f:facet>
-                    </p:panelGrid>
-                    <p:dataTable id="tablaHistorial"
-                                 value="#{historialController.boletos}"
-                                 var="boleto"
-                                 emptyMessage="Sin boletos registrados."
-                                 style=" max-width: 800px; margin: auto; margin-top: 20px;  ">
-                        <p:column headerText="Id">
-                            <h:outputText value="#{boleto.id}" />
-                        </p:column>
-                        <p:column headerText="Cedula">
-                            <h:outputText value="#{boleto.cedula}" />
-                        </p:column>
-                        <p:column headerText="Nombre">
-                            <h:outputText value="#{boleto.nombre}" />
-                        </p:column>
-                        <p:column headerText="Tipo de Usuario" >
-                            <h:outputText value="#{boleto.tipo}" />
-                        </p:column>
-                        <p:column headerText="Ruta">
-                            <h:outputText value="#{boleto.ruta}" />
-                        </p:column>
-
-                        <p:column headerText="Hora">
-                            <h:outputText value="#{boleto.hora}" />
-                        </p:column>
-
-                        <p:column headerText="Placa">
-                            <h:outputText value="#{boleto.placaDeBus}" />
-                        </p:column>
-                    </p:dataTable>
-                </p:tab>
+        <f:facet name="footer">
+            <div class="botones">
+                <p:commandButton value="Buscar"
+                                 action="#{historialController.buscarHistorial}"
+                                 update="tablaHistorial"
+                                 icon="pi pi-search" />
+            </div>
+        </f:facet>
+    </p:panelGrid>
+    
+    <p:dataTable id="tablaHistorial"
+                 value="#{historialController.boletos}"
+                 var="boleto"
+                 emptyMessage="Sin boletos registrados."
+                 style="max-width: 800px; margin: auto; margin-top: 20px;">
+        <p:column headerText="Id">
+            <h:outputText value="#{boleto.id}" />
+        </p:column>
+        <p:column headerText="Cédula">
+            <h:outputText value="#{boleto.cedula}" />
+        </p:column>
+        <p:column headerText="Nombre">
+            <h:outputText value="#{boleto.nombre}" />
+        </p:column>
+        <p:column headerText="Tipo de Usuario">
+            <h:outputText value="#{boleto.tipo}" />
+        </p:column>
+        <p:column headerText="Ruta">
+            <h:outputText value="#{boleto.ruta}" />
+        </p:column>
+        <p:column headerText="Hora">
+            <h:outputText value="#{boleto.hora}" />
+        </p:column>
+        <p:column headerText="Placa">
+            <h:outputText value="#{boleto.placaDeBus}" />
+        </p:column>
+    </p:dataTable>
+</p:tab>
 
 
             </p:tabView>
