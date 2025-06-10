@@ -1,26 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.ulatina.controller;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import edu.ulatina.data.ServicioUsuario;
-import edu.ulatina.modelds.Usuario;
+
+import edu.ulatina.data.ServicioBoleto;
+import edu.ulatina.models.Boleto;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "historialController")
-@SessionScoped
 public class historialController implements Serializable {
-
-    private ServicioUsuario servicioUsuario = new ServicioUsuario();
-    private List<Usuario> boletos;
+    private Boleto boleto = new Boleto();
+    private ServicioBoleto servicioBoleto = new ServicioBoleto();
+    private List<Boleto> boletos;
     private String cedulaBusqueda;
 
-    public List<Usuario> getBoletos() {
+    public List<Boleto> getBoletos() {
+        try {
+            if (boletos == null) {
+                boletos = servicioBoleto.historialBoletos();
+            }
+        } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede visualizar el boleto" + ex.getMessage(), null));
+        }
         return boletos;
     }
 
@@ -33,26 +37,25 @@ public class historialController implements Serializable {
     }
 
     public void buscarHistorial() {
-    try {
-        if (cedulaBusqueda == null || cedulaBusqueda.trim().isEmpty()) {
-            // Si no hay cédula, mostrar todos los boletos
-            boletos = servicioUsuario.historialBoletos();
-        } else {
-            // Buscar por cédula específica
-            boletos = servicioUsuario.buscarBoletosPorCedula(cedulaBusqueda);
-            if (boletos.isEmpty()) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                    "No se encontraron boletos", 
-                    "No existen boletos para la cédula ingresada");
-                FacesContext.getCurrentInstance().addMessage(null, message);
+        try {
+            if (cedulaBusqueda == null || cedulaBusqueda.trim().isEmpty()) {
+                boletos = servicioBoleto.historialBoletos();
+            } else {
+                boletos = servicioBoleto.buscarBoletosPorCedula(cedulaBusqueda);
+                if (boletos.isEmpty()) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "No se encontraron boletos",
+                            "No existen boletos para la cédula ingresada");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+                }
             }
+        } catch (Exception e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error en la búsqueda",
+                    e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            System.out.println("Error al buscar historial: " + e.getMessage());
         }
-    } catch (Exception e) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-            "Error en la búsqueda", 
-            e.getMessage());
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        System.out.println("Error al buscar historial: " + e.getMessage());
     }
-}
+
 }
