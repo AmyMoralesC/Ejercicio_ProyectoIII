@@ -3,7 +3,6 @@ package edu.ulatina.models;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 
-
 @ManagedBean(name = "boleto")
 public class Boleto implements Serializable {
 
@@ -40,7 +39,11 @@ public class Boleto implements Serializable {
         this.tipo = asignarTipo(edad);
     }
 
-    private TipoUsuario asignarTipo(int edad) {
+    private TipoUsuario asignarTipo(Integer edad) {
+        if (edad == null) {
+            return null;
+        }
+
         if (edad < 17) {
             return TipoUsuario.NIÑO;
         } else if (edad < 65) {
@@ -49,8 +52,6 @@ public class Boleto implements Serializable {
             return TipoUsuario.ADULTO_MAYOR;
         }
     }
-
-    
 
     public int getId() {
         return id;
@@ -82,7 +83,8 @@ public class Boleto implements Serializable {
 
     public void setEdad(Integer edad) {
         this.edad = edad;
-        this.tipo = asignarTipo(edad); 
+        this.tipo = asignarTipo(edad);
+
     }
 
     public String getSexo() {
