@@ -31,7 +31,7 @@ public class registroController implements Serializable {
     private boolean validarDatosBoleto(Boleto boleto) {
         boolean esValido = true;
 
-        if (boleto.getCedula() <= 0) {
+        if ( boleto.getCedula() == null || boleto.getCedula() <= 0 ) {
             agregarMensajeError("Cédula inválida");
             esValido = false;
         }
@@ -42,7 +42,7 @@ public class registroController implements Serializable {
             agregarMensajeError("El nombre solo debe contener letras");
             esValido = false;
         }
-        if (boleto.getEdad() <= 0 || boleto.getEdad() > 120) {
+        if (boleto.getEdad()== null || boleto.getEdad() <= 0 || boleto.getEdad() > 120 ) {
             agregarMensajeError("La edad es inválida");
             esValido = false;
         }
