@@ -25,7 +25,7 @@ public class ServicioBoleto extends Servicio {
         return precioFinal;
     }
 
-    public void RegistrarBoleto(Boleto boleto) throws SQLException, NullPointerException, ClassNotFoundException {
+    public void registrarBoleto(Boleto boleto) throws SQLException, NullPointerException, ClassNotFoundException {
 
         PreparedStatement pstmt = null;
 
@@ -67,7 +67,7 @@ public class ServicioBoleto extends Servicio {
 
         try {
             super.conectarBD();
-            String sql = "SELECT id,cedula,nombre,tipo_usuario,ruta,placa_bus,precio,hora FROM boleto";
+            String sql = "SELECT id,cedula,nombre,edad,tipo_usuario,ruta,placa_bus,precio,hora FROM boleto";
             pstmt = super.getConexion().prepareStatement(sql);
             rs = pstmt.executeQuery();
 
@@ -77,6 +77,7 @@ public class ServicioBoleto extends Servicio {
                 boleto.setId(rs.getInt("id"));
                 boleto.setCedula(rs.getInt("cedula"));
                 boleto.setNombre(rs.getString("nombre"));
+                boleto.setEdad(rs.getInt("edad"));
                 boleto.setTipo(TipoUsuario.valueOf(rs.getString("tipo_usuario")));
                 boleto.setRuta(rs.getString("ruta"));
                 boleto.setPlacaDeBus(rs.getString("placa_bus"));
@@ -109,7 +110,7 @@ public class ServicioBoleto extends Servicio {
         try {
             int cedula = Integer.parseInt(cedulaStr); 
             super.conectarBD();
-            String sql = "SELECT id, cedula, nombre, tipo_usuario, ruta, placa_bus, precio, hora FROM boleto WHERE cedula = ?";
+            String sql = "SELECT id, cedula, nombre, edad, tipo_usuario, ruta, placa_bus, precio, hora FROM boleto WHERE cedula = ?";
             pstmt = super.getConexion().prepareStatement(sql);
             pstmt.setInt(1, cedula); 
             rs = pstmt.executeQuery();
@@ -119,6 +120,7 @@ public class ServicioBoleto extends Servicio {
                 boleto.setId(rs.getInt("id"));
                 boleto.setCedula(rs.getInt("cedula"));
                 boleto.setNombre(rs.getString("nombre"));
+                boleto.setEdad(rs.getInt("edad"));
                 boleto.setTipo(TipoUsuario.valueOf(rs.getString("tipo_usuario")));
                 boleto.setRuta(rs.getString("ruta"));
                 boleto.setPlacaDeBus(rs.getString("placa_bus"));
