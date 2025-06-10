@@ -66,7 +66,9 @@ public class Boleto implements Serializable {
     }
 
     public void setCedula(Integer cedula) {
+
         this.cedula = cedula;
+
     }
 
     public String getNombre() {
