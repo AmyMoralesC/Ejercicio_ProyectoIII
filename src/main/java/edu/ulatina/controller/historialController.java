@@ -11,8 +11,8 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "historialController")
 public class historialController implements Serializable {
-    private Boleto boleto = new Boleto();
-    private ServicioBoleto servicioBoleto = new ServicioBoleto();
+    
+    private final ServicioBoleto servicioBoleto = new ServicioBoleto();
     private List<Boleto> boletos;
     private String cedulaBusqueda;
 
@@ -21,10 +21,13 @@ public class historialController implements Serializable {
             if (boletos == null) {
                 boletos = servicioBoleto.historialBoletos();
             }
+
         } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede visualizar el boleto" + ex.getMessage(), null));
         }
+
         return boletos;
     }
 
@@ -39,8 +42,10 @@ public class historialController implements Serializable {
     public void buscarHistorial() {
         try {
             if (cedulaBusqueda == null || cedulaBusqueda.trim().isEmpty()) {
+                
                 boletos = servicioBoleto.historialBoletos();
             } else {
+                
                 boletos = servicioBoleto.buscarBoletosPorCedula(cedulaBusqueda);
                 if (boletos.isEmpty()) {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
